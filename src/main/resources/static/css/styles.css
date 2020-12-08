@@ -1,6 +1,6 @@
 .portfolio-header {
   position: relative;
-  background-image: url(../images/header-bg.jpg);
+  background-image: url(../images/Apfelweinbecher_500.jpg);
   background-size: cover;
   background-repeat: no-repeat;
 }
@@ -15,7 +15,7 @@
 .mdl-layout__title {
   font-size: 14px;
   text-align: center;
-  font-weight: 300;
+  font-weight: 1300;
 }
 
 .is-compact .mdl-layout__title span {
@@ -297,9 +297,9 @@ footer {
 
 h1, h2 {
     font-family: "Roboto","Helvetica","Arial",sans-serif;
+    color: coral;
     font-weight: 800;
     font-size: 56px;
-    line-height: 1.35;
-    letter-spacing: -.02em;
     margin: 24px 0;
+
 }
