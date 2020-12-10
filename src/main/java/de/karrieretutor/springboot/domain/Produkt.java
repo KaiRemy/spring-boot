@@ -29,6 +29,9 @@ public class Produkt {
     @NotNull(message = "{validation.produkt.unterkategorie}")
     private Unterkategorie unterkategorie;
 
+//    @NotNull(message = "{validation.produkt.beschreibung}")
+//    private String beschreibung;
+
     @NotNull
     @Min(value = 1, message = "{validation.produkt.preis}")
     private Double preis;
@@ -36,19 +39,23 @@ public class Produkt {
     private String dateiname;
     private byte[] datei;
 
-    public Produkt() {}
 
-    public Produkt(String name, String herkunft, Kategorie kategorie, Unterkategorie unterkategorie, Double preis) {
+    public Produkt() {
+    }
+
+    public Produkt(String name, String herkunft, Kategorie kategorie, Unterkategorie unterkategorie, String beschreibung, Double preis) {
         this.name = name;
         this.herkunft = herkunft;
         this.kategorie = kategorie;
         this.unterkategorie = unterkategorie;
+//        this.beschreibung = beschreibung;
         this.preis = preis;
     }
 
     public Long getId() {
         return id;
     }
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -56,6 +63,7 @@ public class Produkt {
     public String getName() {
         return name;
     }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -63,6 +71,7 @@ public class Produkt {
     public String getHerkunft() {
         return herkunft;
     }
+
     public void setHerkunft(String herkunft) {
         this.herkunft = herkunft;
     }
@@ -70,6 +79,7 @@ public class Produkt {
     public Kategorie getKategorie() {
         return kategorie;
     }
+
     public void setKategorie(Kategorie kategorie) {
         this.kategorie = kategorie;
     }
@@ -77,13 +87,24 @@ public class Produkt {
     public Unterkategorie getUnterkategorie() {
         return unterkategorie;
     }
+
     public void setUnterkategorie(Unterkategorie unterkategorie) {
         this.unterkategorie = unterkategorie;
     }
 
+//    public String getBeschreibung() {
+//        return beschreibung;
+//    }
+//
+//    public void setBeschreibung(String beschreibung) {
+//        this.beschreibung = beschreibung;
+//    }
+
+
     public Double getPreis() {
         return preis;
     }
+
     public void setPreis(Double preis) {
         this.preis = preis;
     }
@@ -105,8 +126,8 @@ public class Produkt {
     }
 
     public String getPreisFormatiert() {
-        Locale currentLocale = LocaleContextHolder.getLocale();
-        return NumberFormat.getNumberInstance(currentLocale).format(this.preis);
+        Locale currentLocale = LocaleContextHolder.getLocale ();
+        return NumberFormat.getNumberInstance ( currentLocale ).format ( this.preis );
     }
 
     @Override
