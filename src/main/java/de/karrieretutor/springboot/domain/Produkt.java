@@ -92,14 +92,9 @@ public class Produkt {
         this.unterkategorie = unterkategorie;
     }
 
-//    public String getBeschreibung() {
-//        return beschreibung;
-//    }
+//    public String getBeschreibung() { return beschreibung; }
 //
-//    public void setBeschreibung(String beschreibung) {
-//        this.beschreibung = beschreibung;
-//    }
-
+//    public void setBeschreibung(String beschreibung) { this.beschreibung = beschreibung; }
 
     public Double getPreis() {
         return preis;
@@ -138,6 +133,7 @@ public class Produkt {
                 ", herkunft='" + herkunft + '\'' +
                 ", kategorie=" + kategorie +
                 ", unterkategorie=" + unterkategorie +
+//                ", beschreibung=" + beschreibung +
                 ", preis=" + preis +
                 ", dateiname='" + dateiname + '\'' +
                 '}';
