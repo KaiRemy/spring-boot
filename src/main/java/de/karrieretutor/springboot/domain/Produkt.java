@@ -29,8 +29,8 @@ public class Produkt {
     @NotNull(message = "{validation.produkt.unterkategorie}")
     private Unterkategorie unterkategorie;
 
-//    @NotNull(message = "{validation.produkt.beschreibung}")
-//    private String beschreibung;
+    @NotBlank(message = "{validation.produkt.beschreibung}")
+    private String beschreibung;
 
     @NotNull
     @Min(value = 1, message = "{validation.produkt.preis}")
@@ -47,8 +47,7 @@ public class Produkt {
         this.name = name;
         this.herkunft = herkunft;
         this.kategorie = kategorie;
-        this.unterkategorie = unterkategorie;
-//        this.beschreibung = beschreibung;
+        this.beschreibung = beschreibung;
         this.preis = preis;
     }
 
@@ -92,9 +91,9 @@ public class Produkt {
         this.unterkategorie = unterkategorie;
     }
 
-//    public String getBeschreibung() { return beschreibung; }
-//
-//    public void setBeschreibung(String beschreibung) { this.beschreibung = beschreibung; }
+    public String getBeschreibung() { return beschreibung; }
+
+    public void setBeschreibung(String beschreibung) { this.beschreibung = beschreibung; }
 
     public Double getPreis() {
         return preis;
@@ -133,7 +132,7 @@ public class Produkt {
                 ", herkunft='" + herkunft + '\'' +
                 ", kategorie=" + kategorie +
                 ", unterkategorie=" + unterkategorie +
-//                ", beschreibung=" + beschreibung +
+                ", beschreibung=" + beschreibung +
                 ", preis=" + preis +
                 ", dateiname='" + dateiname + '\'' +
                 '}';
