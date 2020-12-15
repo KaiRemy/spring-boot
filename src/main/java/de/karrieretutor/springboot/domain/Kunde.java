@@ -1,5 +1,6 @@
 package de.karrieretutor.springboot.domain;
 
+import de.karrieretutor.springboot.Const;
 import com.sun.xml.bind.v2.TODO;
 import de.karrieretutor.springboot.enums.Zahlungsart;
 import org.springframework.validation.BindingResult;
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import static de.karrieretutor.springboot.Const.CUSTOMER;
 import static javax.persistence.CascadeType.ALL;
 
 
@@ -45,11 +47,20 @@ public class Kunde {
     @Email
     @NotBlank(message = "{validation.zahlungsart.email}")
     private String email;
+    // TODO: in der DB verschlüsseln
+    private String password;
 
     private String sprache = Locale.GERMAN.getLanguage();
 
-    @OneToMany(mappedBy = "kunde", cascade = ALL)
+    @OneToMany(mappedBy = CUSTOMER, cascade = ALL)
     private List<Bestellung> bestellungen = new ArrayList<>();
+
+    public Kunde() {}
+
+    public Kunde(String email, String passwort) {
+        this.email = email;
+        this.password = passwort;
+    }
 
     public Long getId() {
         return id;
@@ -131,6 +142,13 @@ public class Kunde {
         this.sprache = sprache;
     }
 
+    public String getPassword() {
+        return password;
+    }
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public List<Bestellung> getBestellungen() {
         return bestellungen;
     }
@@ -162,7 +180,7 @@ public class Kunde {
 //            DEFINITIONS.put(definition.substring(0, 2), Integer.parseInt(definition.substring(2)));
 //    }
 
-     //TODO: implementieren
+    // TODO: implementieren
     private boolean validiereKreditkartenNr() {
         return false;
     }

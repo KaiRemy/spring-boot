@@ -6,61 +6,46 @@
 </head>
 <body>
 <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
-	<div th:replace="fragments/header::large(titel='Checkout')"/>
+	<div th:replace="fragments/header::large(titel='Customer')"/>
 	<div th:replace="fragments/header::small"/>
 	<main class="mdl-layout__content">
-		<div class="mdl-cell mdl-cell--6-col center">
-			<h2 th:if="${session.warenkorb.produkte.isEmpty()}" th:text="#{cart.no.products}"></h2>
+		<div class="mdl-cell--4-col-desktop mdl-cell--10-col-tablet mdl-cell--11-col-phone center">
 			<h4 th:if="${message}" th:text="${message}"></h4>
 
-			<form th:action="@{/bestellen}" method="post" autocomplete="on">
-				<button type="submit" id="buy-button" th:text="#{button.buy.now}"
-					class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"/>
+			<form th:action="@{/kunde/speichern}" th:object="${kunde}" method="post" autocomplete="on">
+				<div id="buy-button">
+<!--
+					<button type="button" class="mdl-button mdl-js-button mdl-button&#45;&#45;raised mdl-button&#45;&#45;accent"
+		        th:text="#{button.edit}"/>
+					<button type="button" class="mdl-button mdl-js-button mdl-button&#45;&#45;raised mdl-button&#45;&#45;accent"
+		        th:text="#{button.abort}"/>
+-->
+					<button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent"
+		        th:text="#{button.save}"/>
+				</div>
 
 				<div class="mdl-card__checkout mdl-shadow--4dp">
 					<div class="mdl-card__title">
-						<span class="mdl-card__title-text" th:text="#{nav.cart}"/>
+						<span class="mdl-card__title-text" th:text="#{title.access.data}"/>
 					</div>
-					<table class="mdl-data-table mdl-js-data-table">
-					<thead>
-					<tr>
-						<th class="mdl-data-table__cell--non-numeric" width="20%" th:text="#{table.image}"></th>
-						<th class="mdl-data-table__cell--non-numeric" th:text="#{table.description}"></th>
-						<th width="20%" th:text="#{table.price}"></th>
-						<th width="20%" th:text="#{label.number}"></th>
-					</tr>
-					</thead>
-					<tbody>
-					<tr th:each="p:${session.warenkorb.produkte}" th:with="produkt=${p.produkt}">
-						<td class="mdl-data-table__cell--non-numeric">
-							<input type="hidden" th:name="|produkte[${pStat.index}].produkt.id|" th:value="${produkt.id}"/><br/>
-							<img th:src="${'/fotos/'+produkt.id}" th:alt="${produkt.dateiname}" height="30" border="0"/>
-						</td>
-						<td th:text="${produkt.name}" class="mdl-data-table__cell--non-numeric"></td>
-						<td><span th:text="${produkt.preisFormatiert}"/> &euro;</td>
-						<td><span th:text="${p.anzahl}"/>
-							<input type="hidden" th:name="|produkte[${pStat.index}].anzahl|" th:value="${p.anzahl}"/>
-						</td>
-					</tr>
-					</tbody>
-					<tfoot>
-					<tr>
-						<td></td>
-						<td class="mdl-data-table__cell--non-numeric">
-							<span th:text="#{label.total.number}"/>
-							<span th:text="${session.warenkorb.gesamtzahl}"/>
-						</td>
-						<td></td>
-						<td><span th:text="#{label.total.price}"/>
-							<span th:text="${session.warenkorb.gesamtpreis}"/> &euro;
-						</td>
-					</tr>
-					</tfoot>
-					</table>
+					<div class="mdl-card__supporting-text">
+						<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label twoFields"
+						     th:classappend="${#fields.hasErrors('email')}?is-invalid">
+							<input class="mdl-textfield__input" th:field="*{email}"/>
+							<label class="mdl-textfield__label" for="email" th:text="#{label.payment.email}"/>
+							<span class="mdl-textfield__error" th:errors="*{email}"/>
+						</div>
+						<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label twoFields"
+						     th:classappend="${#fields.hasErrors('password')}?is-invalid">
+							<input class="mdl-textfield__input" th:field="*{password}"/>
+							<label class="mdl-textfield__label" for="password" th:text="#{label.password}"/>
+							<span class="mdl-textfield__error" th:errors="*{password}"/>
+						</div>
+						<!--	TODO: Language switcher	-->
+					</div>
 				</div>
 
-				<!-- TODO: nur Kunden-ID mitgeben -->
-				<div class="mdl-card__checkout mdl-shadow--4dp" th:object="${bestellung.kunde}">
+				<div class="mdl-card__checkout mdl-shadow--4dp">
 					<div class="mdl-card__title">
 						<span class="mdl-card__title-text" th:text="#{title.shipping.address}"/>
 						<input type="hidden" th:field="*{id}"/>
@@ -100,16 +85,10 @@
 							<label class="mdl-textfield__label" for="ort" th:text="#{label.shipping.city}"/>
 							<span class="mdl-textfield__error" th:errors="*{ort}"/>
 						</div>
-						<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label twoFields"
-					     th:classappend="${#fields.hasErrors('email')}?is-invalid">
-							<input class="mdl-textfield__input" th:field="*{email}"/>
-							<label class="mdl-textfield__label" for="email" th:text="#{label.payment.email}"/>
-							<span class="mdl-textfield__error" th:errors="*{email}"/>
-						</div>
 					</div>
 				</div>
 
-				<div class="mdl-card__checkout mdl-shadow--4dp" th:object="${bestellung.kunde}">
+				<div class="mdl-card__checkout mdl-shadow--4dp">
 					<div class="mdl-card__title">
 						<div class="mdl-card__title-text" th:text="#{title.shipping.payment}"/>
 					</div>
