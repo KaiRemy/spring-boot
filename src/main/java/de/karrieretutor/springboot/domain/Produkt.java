@@ -29,13 +29,9 @@ public class Produkt {
     @NotNull(message = "{validation.produkt.unterkategorie}")
     private Unterkategorie unterkategorie;
 
-    @NotBlank(message = "{validation.produkt.beschreibung}")
-    private String beschreibung;
-
     @NotNull
     @Min(value = 1, message = "{validation.produkt.preis}")
     private Double preis;
-
     private String dateiname;
     private byte[] datei;
 
@@ -43,11 +39,11 @@ public class Produkt {
     public Produkt() {
     }
 
-    public Produkt(String name, String herkunft, Kategorie kategorie, Unterkategorie unterkategorie, String beschreibung, Double preis) {
+    public Produkt(String name, String herkunft, Kategorie kategorie, Unterkategorie unterkategorie, Double preis) {
         this.name = name;
         this.herkunft = herkunft;
         this.kategorie = kategorie;
-        this.beschreibung = beschreibung;
+        this.unterkategorie = unterkategorie;
         this.preis = preis;
     }
 
@@ -91,10 +87,6 @@ public class Produkt {
         this.unterkategorie = unterkategorie;
     }
 
-    public String getBeschreibung() { return beschreibung; }
-
-    public void setBeschreibung(String beschreibung) { this.beschreibung = beschreibung; }
-
     public Double getPreis() {
         return preis;
     }
@@ -132,7 +124,6 @@ public class Produkt {
                 ", herkunft='" + herkunft + '\'' +
                 ", kategorie=" + kategorie +
                 ", unterkategorie=" + unterkategorie +
-                ", beschreibung=" + beschreibung +
                 ", preis=" + preis +
                 ", dateiname='" + dateiname + '\'' +
                 '}';
