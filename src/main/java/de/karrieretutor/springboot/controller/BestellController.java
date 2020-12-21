@@ -66,11 +66,16 @@ public class BestellController {
         Kunde kunde = bestellung.getKunde();
         switch (kunde.getZahlungsart()) {
             case EINZUG:
-                if (StringUtils.isEmptyOrWhitespace(kunde.getIban()))
-                {
+               if (StringUtils.isEmptyOrWhitespace(kunde.getIban()))
+
+               {
                     result.rejectValue("kunde.iban", "validation.zahlungsart.iban");
-                    return "checkout";}
-                else
+                    return "checkout";
+                }
+//                Dieses soll die IBAN checken...
+//                if (!kunde.ibanValidation ( kunde.getIban () )){
+//                    result.rejectValue ( "kunde.iban", "validation.zahlungsart.iban" );
+//                return "checkout";}
 
                 break;
 

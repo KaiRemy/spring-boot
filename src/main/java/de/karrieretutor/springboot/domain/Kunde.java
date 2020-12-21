@@ -164,11 +164,15 @@ public class Kunde {
 
     // TODO: implementieren
 
-    public static final int IBANNUMBER_MIN_SIZE = 15;
-    public static final int IBANNUMBER_MAX_SIZE = 34;
-    public static final BigInteger IBANNUMBER_MAGIC_NUMBER = new BigInteger("97");
 
-    public static boolean ibanValidation(String accountNumber) {
+
+    public boolean ibanValidation(String accountNumber)
+
+    {
+        final int IBANNUMBER_MIN_SIZE = 15;
+        final int IBANNUMBER_MAX_SIZE = 34;
+        final BigInteger IBANNUMBER_MAGIC_NUMBER = new BigInteger("97");
+
         String newAccountNumber = accountNumber.trim();
 
         // Check that the total IBAN length is correct as per the country. If not, the IBAN is invalid.
