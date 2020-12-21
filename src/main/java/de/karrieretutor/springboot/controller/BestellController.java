@@ -73,9 +73,10 @@ public class BestellController {
                     return "checkout";
                 }
 //                Dieses soll die IBAN checken...
-//                if (!kunde.ibanValidation ( kunde.getIban () )){
-//                    result.rejectValue ( "kunde.iban", "validation.zahlungsart.iban" );
-//                return "checkout";}
+                if (!kunde.validiereIban (kunde.getIban())) {
+                    result.rejectValue("kunde.iban", "validation.zahlungsart.iban");
+                    return "checkout";
+                }
 
                 break;
 

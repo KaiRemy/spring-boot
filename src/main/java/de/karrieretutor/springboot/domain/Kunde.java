@@ -166,7 +166,7 @@ public class Kunde {
 
 
 
-    public boolean ibanValidation(String accountNumber)
+    public boolean validiereIban(String accountNumber)
 
     {
         final int IBANNUMBER_MIN_SIZE = 15;
