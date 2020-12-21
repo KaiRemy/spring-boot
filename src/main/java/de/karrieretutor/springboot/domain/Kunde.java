@@ -168,11 +168,10 @@ public class Kunde {
     public static final int IBANNUMBER_MAX_SIZE = 34;
     public static final BigInteger IBANNUMBER_MAGIC_NUMBER = new BigInteger("97");
 
-    public static boolean ibanTest(String accountNumber) {
+    public static boolean ibanValidation(String accountNumber) {
         String newAccountNumber = accountNumber.trim();
 
-        // Check that the total IBAN length is correct as per the country. If not, the IBAN is invalid. We could also check
-        // for specific length according to country, but for now we won't
+        // Check that the total IBAN length is correct as per the country. If not, the IBAN is invalid.
         if (newAccountNumber.length() < IBANNUMBER_MIN_SIZE || newAccountNumber.length() > IBANNUMBER_MAX_SIZE) {
             return false;
         }
