@@ -68,9 +68,13 @@ public class BestellController {
             case EINZUG:
                 if (StringUtils.isEmptyOrWhitespace(kunde.getIban())) {
                     result.rejectValue("kunde.iban", "validation.zahlungsart.iban");
-                    return "checkout";
-                }
+                    return "checkout";}
+//                    else if (Kunde.ibanTest (kunde.IBANNUMBER_MAGIC_NUMBER.toString (1))) {
+//                        return "checkout";}
+
+
                 break;
+
             case KREDITKARTE:
                 if (StringUtils.isEmptyOrWhitespace(kunde.getKreditkartenNr())) {
                     result.rejectValue("kunde.kreditkartenNr", "validation.zahlungsart.karte");

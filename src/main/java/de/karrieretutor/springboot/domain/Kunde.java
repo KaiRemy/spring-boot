@@ -9,6 +9,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.math.BigInteger;
 import java.util.*;
 
 import static de.karrieretutor.springboot.Const.CUSTOMER;
@@ -162,21 +163,34 @@ public class Kunde {
     }
 
     // TODO: implementieren
-    private boolean validiereIBAN() { return false; }
 
-//    private static final String DEFSTRS = ""
-//            + "AL28 AD24 AT20 AZ28 BE16 BH22 BA20 BR29 BG22 "
-//            + "HR21 CY28 CZ24 DK18 DO28 EE20 FO18 FI18 FR27 GE22 DE22 GI23 "
-//            + "GL18 GT28 HU28 IS26 IE22 IL23 IT27 KZ20 KW30 LV21 LB28 LI21 "
-//            + "LT20 LU20 MK19 MT31 MR27 MU30 MC27 MD24 ME22 NL18 NO15 PK24 "
-//            + "PS29 PL28 PT25 RO24 SM27 SA24 RS22 SK24 SI19 ES24 SE24 CH21 "
-//            + "TN24 TR26 AE23 GB22 VG24 GR27 CR21";
-//    private static final Map<String, Integer> DEFINITIONS = new HashMap<> ();
-//
-//    static {
-//        for (String definition : DEFSTRS.split(" "))
-//            DEFINITIONS.put(definition.substring(0, 2), Integer.parseInt(definition.substring(2)));
-//    }
+    public static final int IBANNUMBER_MIN_SIZE = 15;
+    public static final int IBANNUMBER_MAX_SIZE = 34;
+    public static final BigInteger IBANNUMBER_MAGIC_NUMBER = new BigInteger("97");
+
+    public static boolean ibanTest(String accountNumber) {
+        String newAccountNumber = accountNumber.trim();
+
+        // Check that the total IBAN length is correct as per the country. If not, the IBAN is invalid. We could also check
+        // for specific length according to country, but for now we won't
+        if (newAccountNumber.length() < IBANNUMBER_MIN_SIZE || newAccountNumber.length() > IBANNUMBER_MAX_SIZE) {
+            return false;
+        }
+
+        // Move the four initial characters to the end of the string.
+        newAccountNumber = newAccountNumber.substring(4) + newAccountNumber.substring(0, 4);
+
+        // Replace each letter in the string with two digits, thereby expanding the string, where A = 10, B = 11, ..., Z = 35.
+        StringBuilder numericAccountNumber = new StringBuilder();
+        for (int i = 0;i < newAccountNumber.length();i++) {
+            numericAccountNumber.append(Character.getNumericValue(newAccountNumber.charAt(i)));
+        }
+
+        // Interpret the string as a decimal integer and compute the remainder of that number on division by 97.
+        BigInteger ibanNumber = new BigInteger(numericAccountNumber.toString());
+        return ibanNumber.mod(IBANNUMBER_MAGIC_NUMBER).intValue() == 1;
+
+    }
 
     // TODO: implementieren
     private boolean validiereKreditkartenNr() {
