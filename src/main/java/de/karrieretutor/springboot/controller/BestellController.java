@@ -66,9 +66,9 @@ public class BestellController {
         Kunde kunde = bestellung.getKunde();
         switch (kunde.getZahlungsart()) {
             case EINZUG:
-               if (StringUtils.isEmptyOrWhitespace(kunde.getIban()))
+                if (StringUtils.isEmptyOrWhitespace(kunde.getIban()))
 
-               {
+                {
                     result.rejectValue("kunde.iban", "validation.zahlungsart.iban");
                     return "checkout";
                 }
@@ -85,6 +85,13 @@ public class BestellController {
                     result.rejectValue("kunde.kreditkartenNr", "validation.zahlungsart.karte");
                     return "checkout";
                 }
+                if (!kunde.validiereKreditkartenNr(kunde.getKreditkartenNr())) {
+                    result.rejectValue("kunde.kreditkartenNr", "validation.zahlungsart.karte");
+                    return "checkout";
+                }
+                break;
+
+
         }
 
         String message = messageSource.getMessage("order.failure", null, locale);
