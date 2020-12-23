@@ -45,7 +45,7 @@ public class BestellController {
     public String zurKasse(Model model, HttpSession session) {
         Kunde kunde = (Kunde)session.getAttribute(CUSTOMER);
         if (kunde == null) {
-            kunde = new Kunde();
+        kunde = new Kunde();
         }
         Bestellung bestellung = new Bestellung();
         bestellung.setKunde(kunde);
@@ -62,7 +62,7 @@ public class BestellController {
         if (result.hasErrors()) {
             return "checkout";
         }
-        // TODO: kunde.validiereZahlungsart(result) implementieren
+
         Kunde kunde = bestellung.getKunde();
         switch (kunde.getZahlungsart()) {
             case EINZUG:

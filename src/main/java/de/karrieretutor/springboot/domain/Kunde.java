@@ -155,14 +155,10 @@ public class Kunde {
         this.bestellungen = bestellungen;
     }
 
-
-    // TODO: implementieren
     @Transient
     public boolean validiereZahlungsart(BindingResult result) {
         return false;
     }
-
-
 
     public boolean validiereIban(String accountNumber)
 
