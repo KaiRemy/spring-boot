@@ -2,7 +2,6 @@ package de.karrieretutor.springboot.controller;
 
 import de.karrieretutor.springboot.domain.Produkt;
 import de.karrieretutor.springboot.domain.Warenkorb;
-import de.karrieretutor.springboot.service.KundenService;
 import de.karrieretutor.springboot.service.ProduktService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -32,11 +31,9 @@ public class SimpleController {
     @Autowired
     ProduktService produktService;
     @Autowired
-    KundenService kundenService;
-    @Autowired
     MessageSource messageSource;
-
-    private Warenkorb warenkorb = new Warenkorb();
+    @Autowired
+    Warenkorb warenkorb;
 
     @GetMapping("/")
     public String homePage(Model model) {

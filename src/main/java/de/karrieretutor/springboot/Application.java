@@ -1,6 +1,6 @@
 package de.karrieretutor.springboot;
 
-import de.karrieretutor.springboot.service.ProduktService;
+import de.karrieretutor.springboot.domain.Warenkorb;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
