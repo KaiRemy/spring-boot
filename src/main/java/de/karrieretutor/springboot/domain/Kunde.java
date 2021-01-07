@@ -1,14 +1,20 @@
 package de.karrieretutor.springboot.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import de.karrieretutor.springboot.Const;
+import com.sun.xml.bind.v2.TODO;
 import de.karrieretutor.springboot.enums.Zahlungsart;
+import org.springframework.validation.BindingResult;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import java.math.BigInteger;
+import java.util.*;
 
+import static de.karrieretutor.springboot.Const.CUSTOMER;
 import static javax.persistence.CascadeType.ALL;
+
 
 @Entity
 public class Kunde {
@@ -16,22 +22,43 @@ public class Kunde {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @NotBlank(message = "{validation.adresse.vorname}")
     private String vorname;
+
+    @NotBlank(message = "{validation.adresse.nachname}")
     private String nachname;
+
+    @NotBlank(message = "{validation.adresse.strasse}")
     private String strasse;
+
+    @NotBlank(message = "{validation.adresse.plz}")
     private String plz;
+
+    @NotBlank(message = "{validation.adresse.ort}")
     private String ort;
 
+    @NotNull(message = "{validation.zahlungsart.zahlungsart}")
     private Zahlungsart zahlungsart;
+
     private String iban;
     private String kreditkartenNr;
+
+    @Email
+    @NotBlank(message = "{validation.zahlungsart.email}")
     private String email;
+    private String password;
 
     private String sprache = Locale.GERMAN.getLanguage();
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "kunde", cascade = ALL)
+    @OneToMany(mappedBy = CUSTOMER, cascade = ALL)
     private List<Bestellung> bestellungen = new ArrayList<>();
+
+    public Kunde() {}
+
+    public Kunde(String email, String passwort) {
+        this.email = email;
+        this.password = passwort;
+    }
 
     public Long getId() {
         return id;
@@ -49,7 +76,6 @@ public class Kunde {
     public String getNameFormatiert() {
         return vorname + " " + nachname;
     }
-
 
     public String getNachname() {
         return nachname;
@@ -114,12 +140,76 @@ public class Kunde {
         this.sprache = sprache;
     }
 
+    public String getPassword() {
+        return password;
+    }
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public List<Bestellung> getBestellungen() {
         return bestellungen;
     }
     public void setBestellungen(List<Bestellung> bestellungen) {
         this.bestellungen = bestellungen;
     }
+
+    @Transient
+    public boolean validiereZahlungsart(BindingResult result) {
+        return false;
+    }
+
+    public boolean validiereIban(String accountNumber)
+
+    {
+        final int IBANNUMBER_MIN_SIZE = 15;
+        final int IBANNUMBER_MAX_SIZE = 34;
+        final BigInteger IBANNUMBER_MAGIC_NUMBER = new BigInteger("97");
+
+        String newAccountNumber = accountNumber.trim();
+
+        // Check that the total IBAN length is correct as per the country. If not, the IBAN is invalid.
+        if (newAccountNumber.length() < IBANNUMBER_MIN_SIZE || newAccountNumber.length() > IBANNUMBER_MAX_SIZE) {
+            return false;
+        }
+
+        // Move the four initial characters to the end of the string.
+        newAccountNumber = newAccountNumber.substring(4) + newAccountNumber.substring(0, 4);
+
+        // Replace each letter in the string with two digits, thereby expanding the string, where A = 10, B = 11, ..., Z = 35.
+        StringBuilder numericAccountNumber = new StringBuilder();
+        for (int i = 0;i < newAccountNumber.length();i++) {
+            numericAccountNumber.append(Character.getNumericValue(newAccountNumber.charAt(i)));
+        }
+
+        // Interpret the string as a decimal integer and compute the remainder of that number on division by 97.
+        BigInteger ibanNumber = new BigInteger(numericAccountNumber.toString());
+        return ibanNumber.mod(IBANNUMBER_MAGIC_NUMBER).intValue() == 1;
+
+    }
+
+    public boolean validiereKreditkartenNr(String kreditkartenNr) {
+
+        int[] ints = new int[kreditkartenNr.length()];
+        for (int i = 0; i < kreditkartenNr.length(); i++) {
+            ints[i] = Integer.parseInt(kreditkartenNr.substring(i, i + 1));
+        }
+        for (int i = ints.length - 2; i >= 0; i = i - 2) {
+            int j = ints[i];
+            j = j * 2;
+            if (j > 9) {
+                j = j % 10 + 1;
+            }
+            ints[i] = j;
+        }
+        int sum = 0;
+        for (int i = 0; i < ints.length; i++) {
+            sum += ints[i];
+        }
+        return (sum % 10 == 0);
+    }
+
+
 
     @Override
     public String toString() {

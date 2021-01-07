@@ -1,22 +1,20 @@
 package de.karrieretutor.springboot.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import de.karrieretutor.springboot.enums.Kategorie;
 import de.karrieretutor.springboot.enums.Unterkategorie;
+import org.springframework.context.i18n.LocaleContextHolder;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 @Entity
 public class Produkt {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO  )
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @NotBlank(message = "{validation.produkt.name}")
@@ -31,34 +29,28 @@ public class Produkt {
     @NotNull(message = "{validation.produkt.unterkategorie}")
     private Unterkategorie unterkategorie;
 
+    @NotNull
     @Min(value = 1, message = "{validation.produkt.preis}")
-    private double preis = 1;
-
+    private Double preis;
     private String dateiname;
-
-
-    @JsonIgnore
     private byte[] datei;
+
 
     public Produkt() {
     }
 
-    public Produkt(String name, String herkunft, Kategorie kategorie, Unterkategorie unterkategorie) {
+    public Produkt(String name, String herkunft, Kategorie kategorie, Unterkategorie unterkategorie, Double preis) {
         this.name = name;
         this.herkunft = herkunft;
         this.kategorie = kategorie;
         this.unterkategorie = unterkategorie;
-    }
-
-    public Produkt(String name, String herkunft, Kategorie kategorie, Unterkategorie unterkategorie, Long id, double preis) {
-        this(name, herkunft, kategorie, unterkategorie);
-        this.id = id;
         this.preis = preis;
     }
 
     public Long getId() {
         return id;
     }
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -66,6 +58,7 @@ public class Produkt {
     public String getName() {
         return name;
     }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -73,6 +66,7 @@ public class Produkt {
     public String getHerkunft() {
         return herkunft;
     }
+
     public void setHerkunft(String herkunft) {
         this.herkunft = herkunft;
     }
@@ -80,6 +74,7 @@ public class Produkt {
     public Kategorie getKategorie() {
         return kategorie;
     }
+
     public void setKategorie(Kategorie kategorie) {
         this.kategorie = kategorie;
     }
@@ -87,23 +82,23 @@ public class Produkt {
     public Unterkategorie getUnterkategorie() {
         return unterkategorie;
     }
+
     public void setUnterkategorie(Unterkategorie unterkategorie) {
         this.unterkategorie = unterkategorie;
     }
 
-    public double getPreis() {
+    public Double getPreis() {
         return preis;
     }
-    public void setPreis(double preis) {
+
+    public void setPreis(Double preis) {
         this.preis = preis;
-    }
-    public String getPreisFormatiert() {
-        return String.format("%.2f", this.preis);
     }
 
     public String getDateiname() {
-        return this.dateiname;
+        return dateiname;
     }
+
     public void setDateiname(String dateiname) {
         this.dateiname = dateiname;
     }
@@ -111,8 +106,14 @@ public class Produkt {
     public byte[] getDatei() {
         return datei;
     }
+
     public void setDatei(byte[] datei) {
         this.datei = datei;
+    }
+
+    public String getPreisFormatiert() {
+        Locale currentLocale = LocaleContextHolder.getLocale ();
+        return NumberFormat.getNumberInstance ( currentLocale ).format ( this.preis );
     }
 
     @Override
